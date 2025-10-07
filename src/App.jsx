@@ -7,7 +7,7 @@ function App() {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [filter, setFilter] = useState("all"); // 👈 new state for filters
+  const [filter, setFilter] = useState("all"); 
 
   const handleLogin = () => setIsLoggedIn(true);
 
@@ -41,7 +41,7 @@ function App() {
   const ongoingTasks = todos.filter((t) => !t.completed);
   const completedTasks = todos.filter((t) => t.completed);
 
-  // 🔍 Filtered list display
+
   const filteredTodos = todos.filter((todo) => {
     if (filter === "ongoing") return !todo.completed;
     if (filter === "completed") return todo.completed;
@@ -52,7 +52,7 @@ function App() {
 
   return (
     <div className="page-center">
-      {/* Sidebar */}
+
       <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
         <button className="close-btn" onClick={() => setSidebarOpen(false)}>
           ×
@@ -69,18 +69,28 @@ function App() {
         >
           Easter egg
         </button>
+
+        <button
+          className="link-github"
+          onClick={() =>
+            (window.location.href = "https://github.com/astrNVlik/To-do-List-with-Login/tree/main/src")
+          }
+        >
+          Github Page
+        </button>
+        
       </div>
 
-      {/* Menu Button */}
+ 
       <button className="menu-btn" onClick={() => setSidebarOpen(!sidebarOpen)}>
         ☰
       </button>
+     
 
-      {/* Todo List */}
       <div className="todo-card">
         <h1>To-Do List</h1>
 
-        {/* Filter Buttons */}
+
         <div className="filter-buttons">
           <button
             className={filter === "all" ? "active" : ""}
@@ -131,7 +141,7 @@ function App() {
                       className="btn-delete"
                       onClick={() => deleteTodo(index)}
                     >
-                      🗑️
+                      delete
                     </button>
                   )}
                 </li>
