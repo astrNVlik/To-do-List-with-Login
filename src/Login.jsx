@@ -12,7 +12,7 @@ function Login({ onLogin }) {
       alert("Please enter both username and password.");
       return;
     }
-    onLogin(); // ✅ Proceed to app
+    onLogin(); 
   };
 
   return (
