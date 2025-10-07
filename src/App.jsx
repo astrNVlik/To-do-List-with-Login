@@ -7,6 +7,7 @@ function App() {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [filter, setFilter] = useState("all"); // 👈 new state for filters
 
   const handleLogin = () => setIsLoggedIn(true);
 
@@ -40,11 +41,18 @@ function App() {
   const ongoingTasks = todos.filter((t) => !t.completed);
   const completedTasks = todos.filter((t) => t.completed);
 
+  // 🔍 Filtered list display
+  const filteredTodos = todos.filter((todo) => {
+    if (filter === "ongoing") return !todo.completed;
+    if (filter === "completed") return todo.completed;
+    return true; // all
+  });
+
   if (!isLoggedIn) return <Login onLogin={handleLogin} />;
 
   return (
     <div className="page-center">
-
+      {/* Sidebar */}
       <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
         <button className="close-btn" onClick={() => setSidebarOpen(false)}>
           ×
@@ -53,31 +61,46 @@ function App() {
         <button className="logout-btn" onClick={handleLogout}>
           Logout
         </button>
-
         <button
           className="link-btn"
           onClick={() =>
             (window.location.href = "https://www.youtube.com/watch?v=xvFZjo5PgG0")
-          }>
+          }
+        >
           Easter egg
         </button>
-     <button
-          className="link-github"
-          onClick={() =>
-            (window.location.href = "https://github.com/astrNVlik/To-do-List-with-Login/tree/main/src")
-          }>
-          GitHub Page
-        </button>
-
       </div>
 
-
+      {/* Menu Button */}
       <button className="menu-btn" onClick={() => setSidebarOpen(!sidebarOpen)}>
         ☰
       </button>
 
+      {/* Todo List */}
       <div className="todo-card">
         <h1>To-Do List</h1>
+
+        {/* Filter Buttons */}
+        <div className="filter-buttons">
+          <button
+            className={filter === "all" ? "active" : ""}
+            onClick={() => setFilter("all")}
+          >
+            All
+          </button>
+          <button
+            className={filter === "ongoing" ? "active" : ""}
+            onClick={() => setFilter("ongoing")}
+          >
+            Ongoing
+          </button>
+          <button
+            className={filter === "completed" ? "active" : ""}
+            onClick={() => setFilter("completed")}
+          >
+            Completed
+          </button>
+        </div>
 
         <form onSubmit={addTodo} className="todo-form">
           <input
@@ -89,54 +112,34 @@ function App() {
           <button type="submit">Add</button>
         </form>
 
-        <div className="todo-sections">
 
-          <div className="todo-section">
-            <h2>Ongoing</h2>
-            {ongoingTasks.length > 0 ? (
-              <ul>
-                {ongoingTasks.map((todo, index) => (
-                  <li key={index}>
-                    <input
-                      type="checkbox"
-                      checked={todo.completed}
-                      onChange={() => toggleTodo(index)}
-                    />
-                    <span>{todo.text}</span>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="empty-text">No ongoing tasks :D</p>
-            )}
-          </div>
-
-
-          <div className="todo-section completed">
-            <h2>Completed</h2>
-            {completedTasks.length > 0 ? (
-              <ul>
-                {completedTasks.map((todo, index) => (
-                  <li key={index}>
-                    <input
-                      type="checkbox"
-                      checked={todo.completed}
-                      onChange={() => toggleTodo(todos.indexOf(todo))}
-                    />
-                    <span>{todo.text}</span>
+        <div className="todo-section">
+          {filteredTodos.length > 0 ? (
+            <ul>
+              {filteredTodos.map((todo, index) => (
+                <li key={index}>
+                  <input
+                    type="checkbox"
+                    checked={todo.completed}
+                    onChange={() => toggleTodo(index)}
+                  />
+                  <span className={todo.completed ? "completed-text" : ""}>
+                    {todo.text}
+                  </span>
+                  {todo.completed && (
                     <button
                       className="btn-delete"
-                      onClick={() => deleteTodo(todos.indexOf(todo))}
+                      onClick={() => deleteTodo(index)}
                     >
                       🗑️
                     </button>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="empty-text">No completed tasks yet</p>
-            )}
-          </div>
+                  )}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="empty-text">No tasks found for this filter</p>
+          )}
         </div>
       </div>
     </div>

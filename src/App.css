@@ -390,3 +390,34 @@ body {
 .link-github:hover {
   background: #565656;
 }
+
+.filter-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.filter-buttons button {
+  padding: 6px 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #f8f8f8;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.filter-buttons button:hover {
+  background: #6d6d6d;
+}
+
+.filter-buttons .active {
+  background: #404040;
+  color: white;
+  border-color: #404040;
+}
+
+.completed-text {
+  text-decoration: line-through;
+  color: gray;
+}
