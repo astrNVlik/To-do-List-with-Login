@@ -64,7 +64,7 @@ function App() {
      <button
           className="link-github"
           onClick={() =>
-            (window.location.href = "https://github.com/astrNVlik/To-do-List-with-Login")
+            (window.location.href = "https://github.com/astrNVlik/To-do-List-with-Login/tree/main/src")
           }>
           GitHub Page
         </button>
